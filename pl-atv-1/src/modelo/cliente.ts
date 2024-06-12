@@ -63,4 +63,8 @@ export default class Cliente {
     public adicionarTelefone(telefone: Telefone): void {
         this.telefones.push(telefone);
     }
+
+    public adicionarPet(pet: Pet): void {
+        this.pets.push(pet);
+    }
 }

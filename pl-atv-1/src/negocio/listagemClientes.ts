@@ -20,8 +20,20 @@ export default class ListagemClientes extends Listagem {
             cliente.getRgs.forEach(rg => {
                 console.log(`RG: ` + rg.getValor + ` - Data de emissão: ` + rg.getDataEmissao.toLocaleDateString());
             });
+
+            // Listando os telefones do cliente
             cliente.getTelefones.forEach(telefone => {
                 console.log(`Telefone: (${telefone.getDdd}) ${telefone.getNumero}`);
+            });
+
+            // Listando os pets do cliente
+            console.log(`Pets:`);
+            cliente.getPets.forEach(pet => {
+                console.log(`  Nome: ${pet.getNome}`);
+                console.log(`  Tipo: ${pet.getTipo}`);
+                console.log(`  Raça: ${pet.getRaca}`);
+                console.log(`  Gênero: ${pet.getGenero}`);
+                console.log(`  ----------------------------`);
             });
 
             console.log(`--------------------------------------`);

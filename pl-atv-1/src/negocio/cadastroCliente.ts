@@ -4,6 +4,7 @@ import CPF from "../modelo/cpf";
 import Cadastro from "./cadastro";
 import RG from "../modelo/rg";
 import Telefone from "../modelo/telefone";
+import Pet from "../modelo/pet";
 
 export default class CadastroCliente extends Cadastro {
     private clientes: Array<Cliente>;
@@ -58,6 +59,17 @@ export default class CadastroCliente extends Cadastro {
 
             let adicionarOutroTelefone = this.entrada.receberTexto(`Deseja adicionar outro telefone? (s/n): `);
             adicionarMaisTelefones = adicionarOutroTelefone.toLowerCase() === 's';
+        }
+
+        let cadastrarPet = this.entrada.receberTexto(`Deseja cadastrar um pet? (s/n): `);
+
+        if (cadastrarPet.toLowerCase() === 's') {
+            let nomePet = this.entrada.receberTexto(`Por favor informe o nome do pet: `);
+            let tipoPet = this.entrada.receberTexto(`Por favor informe o tipo do pet: `);
+            let racaPet = this.entrada.receberTexto(`Por favor informe a raça do pet: `);
+            let generoPet = this.entrada.receberTexto(`Por favor informe o gênero do pet: `);
+            let pet = new Pet(nomePet, racaPet, generoPet, tipoPet);
+            cliente.adicionarPet(pet); // Adiciona o pet à lista de pets do cliente
         }
 
         // Adicionar cliente à lista de clientes
