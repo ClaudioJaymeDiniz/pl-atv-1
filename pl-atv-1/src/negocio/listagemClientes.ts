@@ -20,8 +20,6 @@ export default class ListagemClientes extends Listagem {
             cliente.getRgs.forEach(rg => {
                 console.log(`RG: ` + rg.getValor + ` - Data de emissão: ` + rg.getDataEmissao.toLocaleDateString());
             });
-
-            // Listando os Telefones do cliente usando o método já existente
             cliente.getTelefones.forEach(telefone => {
                 console.log(`Telefone: (${telefone.getDdd}) ${telefone.getNumero}`);
             });
