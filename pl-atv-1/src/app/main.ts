@@ -12,9 +12,18 @@ import ListagemServicos from "../negocio/servico/listagemServicos";
 import RemoverCliente from "../negocio/cliente/removerCliente";
 import RemoverServico from "../negocio/servico/removerServico";
 import RemoverProduto from "../negocio/produto/removerProduto";
+import RemoverPet from "../negocio/pet/removerPet";
+import CompraProduto from "../negocio/cliente/compraProduto";
+import CompraServico from "../negocio/cliente/compraServico";
+import Base from "../negocio/base";
+import ClienteProduto from "../negocio/cliente/clienteProduto";
+import ClienteServico from "../negocio/cliente/clienteServico";
+
 
 console.log(`Bem-vindo ao melhor sistema de gerenciamento de pet shops e clínicas veterinárias`);
 let empresa = new Empresa();
+const base = new Base();
+base.popularEmpresa(empresa); // Populando a empresa com dados iniciais
 let execucao = true;
 
 enum EscolhaUser {
@@ -29,6 +38,8 @@ enum EscolhaCadastro {
     pet = 2,
     produto = 3,
     serviço = 4,
+    compraProduto = 5,
+    compraServico = 6,
     back = 9
 }
 enum EscolhaListar {
@@ -70,8 +81,8 @@ while (execucao) {
 
     switch (opcao) {
         case EscolhaUser.cadastrar:
-            let opcaoCadastro = entrada.receberNumero(`Por favor, escolha o que deseja cadastrar:\n1 - Cliente\n2 - Pet\n3 - Produto\n4 - Serviço\n0 - Voltar\n`);
-
+            let opcaoCadastro = entrada.receberNumero
+            (`Por favor, escolha o que deseja cadastrar:\n1 - Cliente\n2 - Pet\n3 - Produto\n4 - Serviço\n5 - Compra Produto\n6 - Compra Servico\n9 - Voltar\n`);
             switch (opcaoCadastro) {
                 case EscolhaCadastro.cliente:
                     let cadastroCliente = new CadastroCliente(empresa.getClientes);
@@ -88,6 +99,14 @@ while (execucao) {
                 case EscolhaCadastro.serviço:
                     let cadastroServico = new CadastroServico(empresa.getServicos)
                     cadastroServico.cadastrar();
+                    break;
+                case EscolhaCadastro.compraProduto:
+                    let compraProduto = new CompraProduto(empresa.getClientes, empresa.getProdutos);
+                    compraProduto.adicionar();
+                    break;
+                case EscolhaCadastro.compraServico:
+                    let compraServico = new CompraServico(empresa.getClientes, empresa.getProdutos);
+                    compraServico.adicionar();
                     break;
                 case EscolhaCadastro.back:
                     // Volta ao menu principal
@@ -121,17 +140,19 @@ while (execucao) {
                     console.log('\n');
                     break;
                 case EscolhaListar.topClienteQuantidade:
-                    // Lógica para listar clientes por quantidade
+                    let topClienteQuantidade = new ListagemClientes(empresa.getClientes);
+                    topClienteQuantidade.listarMaisConsumiuProdutos();
                     break;
                 case EscolhaListar.topClienteValor:
-                    // Lógica para listar clientes por valor
+                    let topClienteValor = new ListagemClientes(empresa.getClientes);
+                    topClienteValor.listarTopClientesPorValor();
                     break;
                 case EscolhaListar.topProdutos:
                     // Lógica para listar clientes por quantidade
                     break;
                 case EscolhaListar.topServicos:
-                    // Lógica para listar clientes por valor
-                    break;
+                    let topServicos = new ListagemServicos(empresa.getServicos);
+                    topServicos.listarMaisConsumidos(empresa.getClientes);
                 case EscolhaListar.back:
                     // Volta ao menu principal
                     break;
@@ -147,9 +168,9 @@ while (execucao) {
                     let removerCliente = new RemoverCliente(empresa.getClientes);
                     removerCliente.remover();
                     break;
-                case EscolhaCadastro.pet:
-                    let cadastroPet = new CadastroPet(empresa.getPets);
-                    cadastroPet.cadastrar();
+                case EscolhaDeletar.pet:
+                    let removerPet = new RemoverPet(empresa.getPets);
+                    removerPet.remover();
                     break;
                 case EscolhaDeletar.produto:
                     let removerProduto = new RemoverProduto(empresa.getProdutos);
@@ -166,7 +187,34 @@ while (execucao) {
                     console.log(`Opção inválida`);
             }
             break;
+            case EscolhaUser.excluir:
+            let opcaoAlterar = entrada.receberNumero
+            (`Por favor, escolha o que deseja alterar:\n1 - Cliente\n2 - Pet\n3 - Produto\n4 - Serviço\n0 - Voltar\n`);
 
+            switch (opcaoAlterar) {
+                case EscolhaDeletar.cliente:
+                    let removerCliente = new RemoverCliente(empresa.getClientes);
+                    removerCliente.remover();
+                    break;
+                case EscolhaDeletar.pet:
+                    let removerPet = new RemoverPet(empresa.getPets);
+                    removerPet.remover();
+                    break;
+                case EscolhaAlterar.produto:
+                    let removerProduto = new RemoverProduto(empresa.getProdutos);
+                    removerProduto.remover();
+                    break;
+                case EscolhaDeletar.serviço:
+                    let removerServico = new RemoverServico(empresa.getServicos);
+                    removerServico.remover();
+                    break;
+                case EscolhaCadastro.back:
+                    // Volta ao menu principal
+                    break;
+                default:
+                    console.log(`Opção inválida`);
+            }
+            break;
         // Adicione casos para outras opções como cadastrarProduto, listarProdutos, etc.
         case EscolhaUser.sair:
             execucao = false;
