@@ -1,22 +1,26 @@
-import Pet from "../../modelo/pet";
+import Cliente from "../../modelo/cliente";
 import Listagem from "../listagem";
 
 export default class ListagemPets extends Listagem {
-    private pets: Array<Pet>;
+    private clientes: Array<Cliente>;
 
-    constructor(pets: Array<Pet>) {
+    constructor(clientes: Array<Cliente>) {
         super();
-        this.pets = pets;
+        this.clientes = clientes;
     }
 
     public listar(): void {
-        console.log(`\nLista de todos os pets:`);
-        this.pets.forEach(pet => {
-            console.log(`Nome: ` + pet.getNome);
-            console.log(`Raça: ` + pet.getRaca);
-            console.log(`Gênero: ` + pet.getGenero);
-            console.log(`Tipo: ` + pet.getTipo);
-            console.log(`--------------------------------------`);
+        console.log(`\nLista de todos os pets dos clientes:`);
+        this.clientes.forEach(cliente => {
+            // Listando os pets do cliente
+            console.log(`Cliente: ${cliente.nome}`);
+            cliente.getPets.forEach(pet => {
+                console.log(`  Nome: ${pet.getNome}`);
+                console.log(`  Tipo: ${pet.getTipo}`);
+                console.log(`  Raça: ${pet.getRaca}`);
+                console.log(`  Gênero: ${pet.getGenero}`);
+                console.log(`----------------------------`);
+            });
         });
         console.log(`\n`);
     }

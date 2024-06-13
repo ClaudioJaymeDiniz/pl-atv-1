@@ -1,30 +1,41 @@
 import Entrada from "../../io/entrada";
-import Pet from "../../modelo/pet";
+import Cliente from "../../modelo/cliente";
 import Excluir from "../excluir";
 
 export default class RemoverPet extends Excluir {
-    private pets: Array<Pet>;
+    private clientes: Array<Cliente>;
     private entrada: Entrada;
 
-    constructor(pets: Array<Pet>) {
+    constructor(clientes: Array<Cliente>) {
         super();
-        this.pets = pets;
+        this.clientes = clientes;
         this.entrada = new Entrada();
     }
 
     public remover(): void {
         console.log(`\nRemover pet`);
-        let nome = this.entrada.receberTexto(`Por favor, informe o nome do pet que deseja remover: `);
 
-        // Encontrar o índice do pet com o nome fornecido
-        let indice = this.pets.findIndex(pet => pet.getNome === nome);
+        // Solicita o nome do cliente
+        const nomeCliente = this.entrada.receberTexto(`Por favor, informe o nome do cliente: `);
 
-        // Verificar se o pet foi encontrado
-        if (indice !== -1) {
-            this.pets.splice(indice, 1);
-            console.log(`\nPet excluído :)\n`);
+        // Encontra o cliente pelo nome
+        const cliente = this.clientes.find(cliente => cliente.nome === nomeCliente);
+
+        if (cliente) {
+            // Solicita o nome do pet
+            const nomePet = this.entrada.receberTexto(`Por favor, informe o nome do pet que deseja remover: `);
+
+            // Encontra o índice do pet pelo nome
+            const indicePet = cliente.getPets.findIndex(pet => pet.getNome === nomePet);
+
+            if (indicePet !== -1) {
+                cliente.getPets.splice(indicePet, 1);
+                console.log(`\nPet removido com sucesso!\n`);
+            } else {
+                console.log(`\nPet não encontrado :(\n`);
+            }
         } else {
-            console.log(`\nPet não encontrado :(\n`);
+            console.log(`\nCliente não encontrado :(\n`);
         }
     }
 }
