@@ -148,7 +148,8 @@ while (execucao) {
                     topClienteValor.listarTopClientesPorValor();
                     break;
                 case EscolhaListar.topProdutos:
-                    // Lógica para listar clientes por quantidade
+                    let topProdutos = new ListagemProdutos(empresa.getProdutos);
+                    topProdutos.listarMaisConsumidos(empresa.getClientes);
                     break;
                 case EscolhaListar.topServicos:
                     let topServicos = new ListagemServicos(empresa.getServicos);
